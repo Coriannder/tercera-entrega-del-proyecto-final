@@ -1,11 +1,13 @@
 import express from 'express'
 import { Server as HttpServer }  from 'http'
 import session from 'express-session'
-import { mongoSession } from './middleware/mongoSession.js'
+import { mongoSession } from './session/mongoSession.js'
 import passport from 'passport'
-import { loginLocalStrategy } from './localStrategys/index.js'
-import { usuariosDao } from './daos/index.js'
 import { port } from './config/config.js'
+import { login } from './routes/login.js'
+import { register } from './routes/register.js'
+import { error } from './routes/error.js'
+
 
 
 const app = express()
@@ -25,14 +27,13 @@ app.use(session(mongoSession))
 app.use(passport.initialize())
 app.use(passport.session())
 
-passport.use('login' , loginLocalStrategy )
 
-passport.serializeUser(( user, done ) => {
-    done(null, user.id)
-})
-passport.deserializeUser( async (id, done) => {
-    done(null, await usuariosDao.listar(id))
-})
+//------------------------------RUTAS---------------------//
+app.use( '/login', login )
+app.use( '/register' , register )
+app.use( '/error' , error )
+
+
 
 
 
