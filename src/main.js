@@ -7,6 +7,8 @@ import { port } from './config/config.js'
 import { login } from './routes/login.js'
 import { register } from './routes/register.js'
 import { error } from './routes/error.js'
+import { home } from './routes/home.js'
+
 
 
 
@@ -32,8 +34,7 @@ app.use(passport.session())
 app.use( '/login', login )
 app.use( '/register' , register )
 app.use( '/error' , error )
-
-
+app.use( '/home' , home )
 
 
 
