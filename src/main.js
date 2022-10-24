@@ -8,6 +8,7 @@ import { login } from './routes/login.js'
 import { register } from './routes/register.js'
 import { error } from './routes/error.js'
 import { home } from './routes/home.js'
+import { usuariosDao } from './daos/index.js'
 
 
 
@@ -37,11 +38,14 @@ app.use( '/error' , error )
 app.use( '/home' , home )
 
 
+const user = await usuariosDao.listarAll()
+console.log('listaroll', user)
+
 
 
 //------------------Configuracion Server---------------------------------//
 
-const server = httpServer.listen(port, ()=>{
+const server = httpServer.listen(port, async ()=>{
     console.log(`Servidor escuchando en el puerto ${server.address().port}`)
 })
 server.on(`error`, error => console.log(`Error en servidor: ${error}`))

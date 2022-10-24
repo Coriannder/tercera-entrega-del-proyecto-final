@@ -7,7 +7,7 @@ export const postRegisterController = async ( req , res  ) => {
     const email = req.body.email
     const password = createHash(req.body.password)
     if(usuarios.find(usuario => usuario.email == email)){
-        req.session.errorMessage = "El email ya se encuentra registrado, prueba con otro"
+        req.session.errorMessage = "Este email ya se encuentra registrado, prueba con otro"
         req.session.ruta = req.originalUrl
         res.redirect('/error')
         console.log(req.session)
@@ -16,7 +16,6 @@ export const postRegisterController = async ( req , res  ) => {
         res.redirect('/login')
     }
 }
-
 
 export const getRegisterController = ( req, res ) => {
     res.render('pages/register')
