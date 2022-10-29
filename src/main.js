@@ -8,8 +8,7 @@ import { login } from './routes/login.js'
 import { register } from './routes/register.js'
 import { error } from './routes/error.js'
 import { home } from './routes/home.js'
-import { usuariosDao } from './daos/index.js'
-
+import { cart } from './routes/cart.js'
 
 
 
@@ -17,6 +16,8 @@ const app = express()
 const httpServer = new HttpServer(app)
 app.use(express.json())
 app.use(express.urlencoded({extended: true}))
+app.use(express.static('public'))
+
 
 //------------------Configuracion EJS--------------------//
 app.set('views', './views')
@@ -36,11 +37,7 @@ app.use( '/login', login )
 app.use( '/register' , register )
 app.use( '/error' , error )
 app.use( '/home' , home )
-
-
-const user = await usuariosDao.listarAll()
-console.log('listaroll', user)
-
+app.use( '/cart' , cart )
 
 
 //------------------Configuracion Server---------------------------------//

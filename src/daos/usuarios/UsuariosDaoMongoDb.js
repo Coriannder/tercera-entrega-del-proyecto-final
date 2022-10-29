@@ -1,16 +1,18 @@
-//import mongooseTypePhone from 'mongoose-type-phone'
+import mongooseTypePhone from 'mongoose-type-phone'
+import mongoose from 'mongoose';
 import ContenedorMongoDb from "../../container/ContenedorMongoDb.js";
 
 
 class UsuariosDaoMongoDb extends ContenedorMongoDb{
     constructor(){
         super('Usuarios', {
-            /* nombre: {type: String, required: true},
+            nombre: {type: String, required: true},
             direccion: {type: String, required: true},
-            edad: {type: Number, required: true}, */
+            edad: {type: Number, required: true},
             email: {type: String, required: true, index: { unique: true }},
+            photo: {type: String, required: true},
             password: {type: String, required: true },
-            /* phone: {
+            phone: {
                 type: mongoose.SchemaTypes.Phone,
                 required: true,
                 allowBlank: false,
@@ -18,7 +20,7 @@ class UsuariosDaoMongoDb extends ContenedorMongoDb{
                 phoneNumberFormat: mongooseTypePhone.PhoneNumberFormat.INTERNATIONAL, // can be omitted to keep raw input
                 defaultRegion: 'AR',
                 parseOnGet: false
-            } */
+            }
 
         })
     }

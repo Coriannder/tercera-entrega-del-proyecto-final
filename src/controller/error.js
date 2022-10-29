@@ -1,8 +1,13 @@
-
+import fs from 'fs'
 
 export const getErrorController = (req, res ) => {
-    res.render('pages/error' , {message: req.session.errorMessage,
-    ruta: req.session.ruta})
-    console.log('session en /error', req.session)
-    req.session.destroy
+    if(req.session.route == 'register') {
+        fs.unlinkSync('public/uploads/' + req.session.fileName)
+    }
+
+    res.render('pages/error' , {
+        message: req.session.message,
+        route: req.session.route
+    })
+    req.session.destroy()
 }

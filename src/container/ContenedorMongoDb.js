@@ -20,6 +20,7 @@ class ContenedorMongoDb {
     async listar(id) {
         try {
             const res = await this.collection.find({_id: id})
+            
             return transformMongoObject(res)
         } catch (error) {
             console.log(error)

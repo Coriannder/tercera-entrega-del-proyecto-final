@@ -14,6 +14,6 @@ export const mongoSession = {
     saveUninitialized: false,
     rolling: true,
     cookie: {
-        maxAge: 6000
+        maxAge: 60000
     }
 }

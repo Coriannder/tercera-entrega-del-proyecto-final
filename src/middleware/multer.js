@@ -6,14 +6,18 @@ const storage = multer.diskStorage({
         cb(null, 'public/uploads')
     },
     filename: function (req, file, cb) {
-        cb(null, 'porfilePhoto-' + req.email)
+        //const fileExtension = file.originalname.slice(file.originalname.lastIndexOf("."))
+        
+        //req.body.fileName = file.fieldname + Date.now() + fileExtension
+        req.body.fileName = Date.now() + file.originalname
+        cb(null, req.body.fileName)
     }
 })
 
 export const upload = multer({
     storage: storage,
     fileFilter: function (req, file, cb) {
-        if (!file.originalname.match(/\.(jpg)$/)) {
+        if (!file.originalname.match(/\.(jpg|png)$/)) {
         return cb(new Error('Error en el tipo de archivo.'));
         }
         cb(null, true);
