@@ -9,6 +9,7 @@ import { register } from './routes/register.js'
 import { error } from './routes/error.js'
 import { home } from './routes/home.js'
 import { cart } from './routes/cart.js'
+import { logout } from './routes/logout.js'
 
 
 
@@ -16,6 +17,7 @@ const app = express()
 const httpServer = new HttpServer(app)
 app.use(express.json())
 app.use(express.urlencoded({extended: true}))
+
 app.use(express.static('public'))
 
 
@@ -31,13 +33,17 @@ app.use(session(mongoSession))
 app.use(passport.initialize())
 app.use(passport.session())
 
+//----------------------VARIABLES GLOBALES-----------------//
+
 
 //------------------------------RUTAS---------------------//
 app.use( '/login', login )
+app.use( '/logout' , logout)
 app.use( '/register' , register )
 app.use( '/error' , error )
 app.use( '/home' , home )
 app.use( '/cart' , cart )
+
 
 
 //------------------Configuracion Server---------------------------------//

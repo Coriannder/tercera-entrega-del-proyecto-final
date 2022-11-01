@@ -13,7 +13,7 @@
 
     btnGuardar.addEventListener('click' , async e => {
 
-        const cantidad = document.getElementById("popo").value || '1'
+        const cantidad = document.getElementById("inputCantidad").value || '1'
 
         const producto = {
             id: id,
@@ -22,7 +22,7 @@
 
         console.log('producto', producto)
 
-        let response = await fetch('/home', {
+        let response = await fetch('/cart/addProduct', {
             method: 'POST',
             headers: {
                 'Accept': 'application/json',

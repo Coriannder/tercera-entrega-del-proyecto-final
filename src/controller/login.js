@@ -18,4 +18,5 @@ export const postLoginController = async (req, res, next) => {
 
 export const getLoginController = (req, res) => {
     res.render('pages/login')
+    console.log(global.productos)
 }
