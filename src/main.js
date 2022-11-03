@@ -45,6 +45,12 @@ app.use( '/home' , home )
 app.use( '/cart' , cart )
 
 
+//------------------------Probando NODEMAILER---------------------//
+/* import { transportador } from './utils/nodemailer.js'
+
+const mail = await transportador() */
+
+
 
 //------------------Configuracion Server---------------------------------//
 

@@ -1,5 +1,6 @@
 
 import { carritosDao, usuariosDao } from "../daos/index.js"
+import { sendMailNewCart } from "../utils/nodemailer.js"
 
 
 let carritos = []  // aqui se guardan los carritos que esten generando los usuarios
@@ -68,9 +69,14 @@ export const deleteCartProductController = async (req, res ) => { // por params 
 export const postCartBuyController = async ( req , res ) => {
     if ( req.isAuthenticated() ) {
 
+        const usuario =  await usuariosDao.listar(req.session.passport.user)
         let miCarrito = carritos.find(carrito => carrito.user === req.session.passport.user)
 
         const guardado = await carritosDao.guardar(miCarrito)
+
+
+
+       sendMailNewCart(usuario[0].nombre , usuario[0].email , miCarrito)
 
         const index = carritos.findIndex(carrito => carrito.user === req.session.passport.user) // Indice de miCarrito
         carritos.splice(index,1)    // Elimino el carrito completo porque ya se realizo la compra
@@ -79,4 +85,26 @@ export const postCartBuyController = async ( req , res ) => {
 
     } else {
         res.redirect('/login' )
-    }}
+    }
+}
+
+
+
+/* export const sendMailNewCart = async ( nombre, email, cart ) => { */
+
+/* super('Usuarios', {
+    nombre: {type: String, required: true},
+    direccion: {type: String, required: true},
+    edad: {type: Number, required: true},
+    email: {type: String, required: true, index: { unique: true }},
+    photo: {type: String, required: true},
+    password: {type: String, required: true },
+    phone: {
+        type: mongoose.SchemaTypes.Phone,
+        required: true,
+        allowBlank: false,
+        allowedNumberTypes: [mongooseTypePhone.PhoneNumberType.MOBILE, mongooseTypePhone.PhoneNumberType.FIXED_LINE_OR_MOBILE],
+        phoneNumberFormat: mongooseTypePhone.PhoneNumberFormat.INTERNATIONAL, // can be omitted to keep raw input
+        defaultRegion: 'AR',
+        parseOnGet: false
+    } */

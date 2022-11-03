@@ -1,5 +1,6 @@
 import { usuariosDao } from "../daos/index.js"
 import { createHash } from "../utils/crypt.js"
+import { sendMailNewUser } from "../utils/nodemailer.js"
 
 
 
@@ -14,7 +15,7 @@ export const postRegisterController = async ( req , res  ) => {
         res.redirect('/error')
 
     } else {
-        await usuariosDao.guardar( {
+        const newUser = {
             nombre: req.body.nombre,
             direccion: req.body.direccion,
             edad: req.body.edad,
@@ -22,10 +23,14 @@ export const postRegisterController = async ( req , res  ) => {
             password: password,
             photo: req.body.fileName,
             phone: '+549' + req.body.telefono
-        })
+        }
+
+        await usuariosDao.guardar( newUser ).then( res => sendMailNewUser( newUser ))
+        //sendMailNewUser( newUser )
+
+        //console.log('/uploads/',newUser.photo)
         res.redirect('/login')
     }
-
 }
 
 export const getRegisterController = ( req, res ) => {
