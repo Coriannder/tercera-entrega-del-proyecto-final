@@ -58,7 +58,7 @@ export const sendMailNewCart = async ( nombre, email, cart ) => {
         subject: 'nuevo pedido de ' + nombre ,
         html: `<h1 style="color: blue;">Nueva compra del usuario: <span style="color: green;"> ${email} </span></h1><div><ul>` 
         + listaProductosCarrito + `<h2>Total $ ${cart.total} </h2></ul><div>`
-    
+
     }
 
     try {

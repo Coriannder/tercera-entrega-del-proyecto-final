@@ -12,12 +12,11 @@ import { cart } from './routes/cart.js'
 import { logout } from './routes/logout.js'
 
 
-
 const app = express()
 const httpServer = new HttpServer(app)
+
 app.use(express.json())
 app.use(express.urlencoded({extended: true}))
-
 app.use(express.static('public'))
 
 
@@ -33,9 +32,6 @@ app.use(session(mongoSession))
 app.use(passport.initialize())
 app.use(passport.session())
 
-//----------------------VARIABLES GLOBALES-----------------//
-
-
 //------------------------------RUTAS---------------------//
 app.use( '/login', login )
 app.use( '/logout' , logout)
@@ -45,16 +41,10 @@ app.use( '/home' , home )
 app.use( '/cart' , cart )
 
 
-//------------------------Probando NODEMAILER---------------------//
-/* import { transportador } from './utils/nodemailer.js'
-
-const mail = await transportador() */
-
-
-
 //------------------Configuracion Server---------------------------------//
 
 const server = httpServer.listen(port, async ()=>{
     console.log(`Servidor escuchando en el puerto ${server.address().port}`)
 })
 server.on(`error`, error => console.log(`Error en servidor: ${error}`))
+
