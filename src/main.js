@@ -44,6 +44,9 @@ app.use( '/register' , register )
 app.use( '/error' , error )
 app.use( '/home' , home )
 app.use( '/cart' , cart )
+app.get('*', (req, res) => {
+    res.redirect('/login')
+})
 
 
 //logger.error('probando logger error')
