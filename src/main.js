@@ -48,10 +48,6 @@ app.get('*', (req, res) => {
     res.redirect('/login')
 })
 
-
-//logger.error('probando logger error')
-
-
 //------------------YARGS---------------------------------//
 
 const { mode } = yargs(process.argv.slice(2))
