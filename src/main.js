@@ -10,6 +10,11 @@ import { error } from './routes/error.js'
 import { home } from './routes/home.js'
 import { cart } from './routes/cart.js'
 import { logout } from './routes/logout.js'
+import yargs from  'yargs'
+import cluster from 'cluster'
+import { cpus } from 'os'
+import { logger } from './utils/logger.js'
+
 
 
 const app = express()
@@ -41,10 +46,61 @@ app.use( '/home' , home )
 app.use( '/cart' , cart )
 
 
-//------------------Configuracion Server---------------------------------//
+//logger.error('probando logger error')
 
-const server = httpServer.listen(port, async ()=>{
-    console.log(`Servidor escuchando en el puerto ${server.address().port}`)
-})
-server.on(`error`, error => console.log(`Error en servidor: ${error}`))
+
+//------------------YARGS---------------------------------//
+
+const { mode } = yargs(process.argv.slice(2))
+    .alias({
+        m: 'mode'
+    })
+    .default({
+        mode: 'fork'
+    })
+    .argv
+
+//--------------------------Modo CLUSTER------------------------//
+
+const numCPUs = cpus().length;
+
+if(mode === 'cluster'){
+    if (cluster.isPrimary) {
+        logger.info(`Primary ${process.pid} is running`);
+
+        // Fork workers.
+        for (let i = 0; i < numCPUs; i++) {
+            cluster.fork();
+        }
+
+        cluster.on('exit', (worker, code, signal) => {
+            logger.info(`worker ${worker.process.pid} died`);
+            cluster.fork();
+            logger.info(`worker ${worker.process.pid} is running`);
+        });
+
+    } else {
+        //------------------Configuracion Server---------------------------------//
+
+        const server = httpServer.listen(port, ()=>{
+            logger.info(`Servidor escuchando en el puerto ${server.address().port}`, `numero de cpus ${numCPUs}`)
+        })
+        server.on(`error`, error => logger.fatal(`Error en servidor: ${error}`))
+    }
+
+} else {
+
+    //------------------Configuracion Server---------------------------------//
+
+    const server = httpServer.listen(port, ()=>{
+        try {
+            logger.info(`Servidor escuchando en el puerto ${server.address().port}`, `numero de cpus ${numCPUs}`)
+        } catch (error) {
+            logger.fatal('Error en servidor' , error)
+        }
+    })
+    server.on(`error`, error => logger.fatal(`Error en servidor: ${error}`))
+
+}
+
 

@@ -1,6 +1,7 @@
 import mongoose from 'mongoose'
 import transformMongoObject from '../utils/objectUtils.js'
 import { urlMongo } from '../config/config.js'
+import { logger } from '../utils/logger.js'
 
 
 
@@ -8,8 +9,8 @@ await  mongoose.connect(urlMongo, {
     useNewUrlParser: true,
     useUnifiedTopology: true
 })
-.then(() => console.log('Base de datos MONGO conectada'))
-.catch(err => console.log("Base de datos MONGO no conectada"))
+.then(() => logger.info('Base de datos MONGO conectada'))
+.catch(err => logger.error("Base de datos MONGO no conectada"))
 
 
 class ContenedorMongoDb {
@@ -23,7 +24,7 @@ class ContenedorMongoDb {
             
             return transformMongoObject(res)
         } catch (error) {
-            console.log(error)
+            logger.error(error)
             return false
         }
     }
@@ -37,7 +38,7 @@ class ContenedorMongoDb {
                 return transformMongoObject(res)
             }
         } catch (error) {
-            console.log(error)
+            logger.err(error)
             return false
         }
     }
@@ -47,7 +48,7 @@ class ContenedorMongoDb {
             const res = await this.collection.create(elemento)
             return transformMongoObject(res)
         } catch (error) {
-            console.log(error)
+            logger.err(error)
             return false
         }
     }
@@ -57,7 +58,7 @@ class ContenedorMongoDb {
             const res = await this.collection.updateOne({_id: id} , { $set: elemento })
             return res.acknowledged
         } catch (error) {
-            console.log(error)
+            logger.err(error)
             return false
         }
     }
@@ -77,7 +78,7 @@ class ContenedorMongoDb {
             const res = await   this.collection.deleteMany()
             return res.acknowledged
         } catch (error) {
-            console.log(error)
+            logger.err(error)
             return false
         }
     }

@@ -1,7 +1,5 @@
 import { usuariosDao , productosDao } from "../daos/index.js"
 
-/* global.productos = [] */
-
 
 export const getHomeController = async (req, res) => {
     if(req.isAuthenticated()){

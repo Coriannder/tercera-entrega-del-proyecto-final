@@ -1,5 +1,6 @@
 import { createTransport } from 'nodemailer';
 import { userMailAdmin, passMailAdmin } from '../config/config.js';
+import { logger } from './logger.js';
 
 
 const transporter = createTransport({
@@ -37,9 +38,9 @@ export const sendMailNewUser = async ( newUser ) => {
 
     try {
         const info = await transporter.sendMail(mailOptions)
-        console.log(info)
+        logger.info('mail enviado' , info)
     } catch (err) {
-        console.log(err)
+        logger.error(err)
     }
 
 }
@@ -63,9 +64,9 @@ export const sendMailNewCart = async ( nombre, email, cart ) => {
 
     try {
         const info = await transporter.sendMail(mailOptions)
-        console.log(info)
+        logger.info('mail enviado' , info)
     } catch (err) {
-        console.log(err)
+        logger.error(err)
     }
 
 }
